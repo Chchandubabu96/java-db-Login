@@ -13,7 +13,7 @@
       tags:
          - create-dir
 
-    - name: Copy the war file, dockerfile & lwplabs-com.yml to docker master server
+    - name: Copy the war file, dockerfile & lwplabs-com.yml to docker manager server
       copy:
         src: "{{ WORKSPACE }}/"
         dest: /tmp/{{ JOB_NAME }}
@@ -24,7 +24,7 @@
         - copy_code
 
 - name: "Play 2- python installation"
-  hosts: dockerMaster
+  hosts: dockermanager
   become: yes
   tasks:
     - name: Install Python 3.6
@@ -49,7 +49,7 @@
         var: out2
 
 - name: "Play 3 Install Python packages and docker image push"
-  hosts: dockerMaster
+  hosts: dockermanager
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
@@ -96,7 +96,7 @@
         var: out5
 
 - name: "Play 3 docker stack deploy"
-  hosts: dockerMaster
+  hosts: dockermanager
   become: yes
   tasks:
     - name: Remove stack
